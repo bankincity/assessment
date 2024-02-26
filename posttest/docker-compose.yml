@@ -1,0 +1,34 @@
+version: '1.0'
+
+networks:
+    post-test:
+
+services:
+    posttest:
+        build:
+            dockerfile: Dockerfile
+        ports:
+            - "8888:8888"
+        links:
+            - postgres
+        depends_on:
+            - postgres
+        networks:
+            - post-test
+        environment:
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/posttest
+            - SPRING_DATASOURCE_USERNAME=postgres
+            - SPRING_DATASOURCE_PASSWORD=postgres123
+    postgres:
+        image: postgres:16.0
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres123
+            POSTGRES_DB: posttest
+        restart: on-failure
+        ports:
+            - "5432:5432"
+        volumes:
+            - ./db:/docker-entrypoint-initdb.d/
+        networks:
+            - post-test
