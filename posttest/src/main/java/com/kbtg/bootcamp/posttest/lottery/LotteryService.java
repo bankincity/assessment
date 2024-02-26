@@ -19,6 +19,11 @@ public class LotteryService {
         return lotteryRepository.findAll();
     }
 
+    /**
+     * บันทึกล็อตเตอรรี่
+     * @param lotteryRequestDto
+     * @return save Result Type of Lottery
+     */
     public Lottery createLottery(LotteryRequestDto lotteryRequestDto){
 
         Lottery lottery = new Lottery();
